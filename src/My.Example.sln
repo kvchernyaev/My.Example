@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{4E91A3F8-B2E7-4F20-9243-D90474A9756C}"
+	ProjectSection(SolutionItems) = preProject
+		My.Common\Common.tt = My.Common\Common.tt
+		My.Common\DTO.tt = My.Common\DTO.tt
+		My.Common\DTO.xsd = My.Common\DTO.xsd
+		My.Common\example DTO 1.xml = My.Common\example DTO 1.xml
+		My.Common\Page.Parameters.tt = My.Common\Page.Parameters.tt
+		My.Common\Page.Parameters.xsd = My.Common\Page.Parameters.xsd
+		My.Common\PageBase.tt = My.Common\PageBase.tt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My.Common", "My.Common\My.Common\My.Common.csproj", "{6DCE9DA1-CF5D-4C01-A71A-4612A3125DC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My.Common.Web", "My.Common\My.Common.Web\My.Common.Web.csproj", "{4B009CAF-EF2A-458C-A572-C975D3DA2E4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My.WebServerControls", "My.Common\My.WebServerControls\My.WebServerControls.csproj", "{10EB7263-9E98-410E-B892-0D54D82AF425}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6DCE9DA1-CF5D-4C01-A71A-4612A3125DC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DCE9DA1-CF5D-4C01-A71A-4612A3125DC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DCE9DA1-CF5D-4C01-A71A-4612A3125DC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DCE9DA1-CF5D-4C01-A71A-4612A3125DC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B009CAF-EF2A-458C-A572-C975D3DA2E4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B009CAF-EF2A-458C-A572-C975D3DA2E4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B009CAF-EF2A-458C-A572-C975D3DA2E4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B009CAF-EF2A-458C-A572-C975D3DA2E4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10EB7263-9E98-410E-B892-0D54D82AF425}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10EB7263-9E98-410E-B892-0D54D82AF425}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10EB7263-9E98-410E-B892-0D54D82AF425}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10EB7263-9E98-410E-B892-0D54D82AF425}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6DCE9DA1-CF5D-4C01-A71A-4612A3125DC0} = {4E91A3F8-B2E7-4F20-9243-D90474A9756C}
+		{4B009CAF-EF2A-458C-A572-C975D3DA2E4E} = {4E91A3F8-B2E7-4F20-9243-D90474A9756C}
+		{10EB7263-9E98-410E-B892-0D54D82AF425} = {4E91A3F8-B2E7-4F20-9243-D90474A9756C}
+	EndGlobalSection
+EndGlobal

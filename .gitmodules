@@ -1,0 +1,3 @@
+[submodule "src/My.Common"]
+	path = src/My.Common
+	url = https://github.com/kvchernyaev/My.Common.git
