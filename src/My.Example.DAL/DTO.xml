@@ -52,6 +52,15 @@
                 u.Login=@Login or @Email is not null and u.Email like '%'+@Email+'%'
             </sql>
         </findMethod>
+
+        <deleteMethod nameAddon='Deep'>
+            <p name='UserId'/>
+            <sql type='Text'>
+                delete from UsersByRoles where UserId=@UserId
+                delete from UserActivities where UserId=@UserId
+                delete from Users where UserId=@UserId
+            </sql>
+        </deleteMethod>
     </dto>
 
     <dto name='UserActivityDTO' tableName='UserActivities ua' generateFinder=''
