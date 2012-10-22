@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects namespace='My.Example.DAL' ConnectionStringName='My.Example'>
+
+    <dto name='UserRoleDTO' generateGetAllMethod='order by UserRoleId desc' tableName='UserRoles ur'
+         debuggerdisplay='{Name} ({UserRoleId})'>
+        <p name='UserRoleId' type='int' id=''/>
+        <p name='Name' type ='string' nullable='false'/>
+        <p name='Description' type='string' nullable='true'/>
+    </dto>
+
+
+    <dto name='UserDTO' updateable='' generateFindByIdMethod='custom' tableName='Users u' insertable=''
+         generateFinder=''
+         debuggerdisplay='{Login} ({UserId})'>
+        <p name='UserId' type='int' id='' finder=''/>
+
+        <p name='Login' type='string' nullable='false' insertable='' finder=''  updateable=''/>
+        <p name='PasswordHash' type='string' nullable='false' updateable='' insertable=''/>
+
+        <p name='UserFio' type='string' nullable='true' dbname='UserFIO' updateable='' insertable='' finder=''/>
+
+        <p name='Telephone' type='string' nullable='true'  updateable='' insertable='' finder=''/>
+        <p name='Fax' type='string' nullable='true'  updateable='' insertable='' finder=''/>
+        <p name='Email' type='string' nullable='true'  updateable='' insertable='' finder=''/>
+
+        <p name='IsActive' type='bool'  updateable='' insertable='' finder=''/>
+
+        <p name='CreatorUserId'  type='int?' insertable=''/>
+        <p name='CreatedDate' type='DateTime' finder=''/>
+
+        <p name='LastActivityDate' type='DateTime' notfromdb=''/>
+        <p name='LastPasswordChangeDate' type='DateTime' notfromdb=''/>
+
+        <p name='Roles' type='List&lt;UserRoleDTO&gt;' notfromdb='' summary='Объединение RolesByUser и RolesByGroups.'/>
+
+        <finderAddonFields>
+            <p name='Roles' type='List&lt;int&gt;' canFindByNull='true'/>
+        </finderAddonFields>
+
+        <findMethod custom='' nameAddon='' return='one'>
+            <p name='Login' />
+        </findMethod>
+        <findMethod custom='' return='one'>
+            <p name='Login' />
+            <p name='PasswordHash' />
+        </findMethod>
+        <findMethod nameAddon='ByLoginOrEmail' return='list' custom=''>
+            <p name='Login'/>
+            <p name='Email'/>
+
+            <sql type='WhereClause'>
+                u.Login=@Login or @Email is not null and u.Email like '%'+@Email+'%'
+            </sql>
+        </findMethod>
+    </dto>
+
+    <dto name='UserActivityDTO' tableName='UserActivities ua' generateFinder=''
+     debuggerdisplay='UserId={UserId}, RawUrl={RawUrl}, Browser={Browser}'
+     insertable=''>
+        <p name='UserActivityId' type='int' id=''/>
+        <p name='UserId' type='int' finder='liststandart' insertable=''/>
+        <p name='IsChangePsw' type='bool' finder='' insertable=''/>
+        <p name='CreatedDate' type='DateTime' finder=''/>
+        <p name='RawUrl' type='string' nullable='true' finder='' insertable=''/>
+        <p name='Browser' type='string' nullable='true' finder='' insertable=''/>
+        <p name='UserHostAddress' type='string' nullable='true' finder='' insertable=''/>
+
+        <p name='IsPostBack' type='bool' finder='' insertable=''/>
+
+        <p name='ImpersonatedByUserId' type='int?' finder='liststandart' insertable=''/>
+
+        <finderAddonFields>
+            <p name='NotUserId' type='List&lt;int&gt;' canFindByNull='false'/>
+        </finderAddonFields>
+    </dto>
+
+</objects>
