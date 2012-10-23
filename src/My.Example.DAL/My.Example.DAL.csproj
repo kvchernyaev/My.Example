@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JetBrains.Annotations">
+      <HintPath>..\..\packages\JetBrains.Annotations\4.0.0.0__d465d770c746f383\JetBrains.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -42,15 +45,38 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Db.cs" />
+    <Compile Include="Db.GeneratedMethods.cs">
+      <DependentUpon>IncludeDTO.tt</DependentUpon>
+    </Compile>
     <Compile Include="IncludeDTO.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>IncludeDTO.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserActivityDTO.cs">
+      <DependentUpon>IncludeDTO.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserActivityDTOFinder.cs">
+      <DependentUpon>IncludeDTO.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserDTO.cs">
+      <DependentUpon>IncludeDTO.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserDTOFinder.cs">
+      <DependentUpon>IncludeDTO.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserDTOUpdater.cs">
+      <DependentUpon>IncludeDTO.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserRoleDTO.cs">
+      <DependentUpon>IncludeDTO.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DTO.xml" />
+    <Content Include="DTO.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\My.Common\DTO.xsd">
@@ -64,6 +90,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\My.Common\My.Common\My.Common.csproj">
+      <Project>{6DCE9DA1-CF5D-4C01-A71A-4612A3125DC0}</Project>
+      <Name>My.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

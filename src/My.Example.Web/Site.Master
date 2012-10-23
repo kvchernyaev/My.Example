@@ -1,0 +1,198 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="My.Example.Web.SiteMaster" %>
+
+<%@ Import Namespace="My.Example.DAL" %>
+<%@ Import Namespace="My.Example.Web" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<%--<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">--%>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head runat="server">
+    <title></title>
+    <%-- «{проект} – страница – пользователь» --%>
+    <link href="~/Styles/Site.css" rel="stylesheet" type="text/css" />
+    <%--<link href="~/Styles/Common.css" rel="stylesheet" type="text/css" />
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="~/favicon.ico" type="image/vnd.microsoft.icon" />
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/vnd.microsoft.icon" />--%>
+
+    <script src="/Scripts/jquery-1.7.2.min.js" type="text/javascript"> </script>
+
+    <script src="/Scripts/jquery.cookie.js" type="text/javascript"></script>
+
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+
+</head>
+<body style="margin: 0; padding: 0;">
+    <form runat="server">
+    <asp:ScriptManager ID="MainScriptManager" ScriptMode="Release" AllowCustomErrorsRedirect="true" EnableHistory="true"
+        EnableSecureHistoryState="False" LoadScriptsBeforeUI="true" EnablePartialRendering="true" runat="server" OnAsyncPostBackError="MainScriptManager_OnAsyncPostBackError"
+        EnableScriptGlobalization="true" EnableScriptLocalization="true" />
+
+    <style type="text/css">
+        table.menu_table td a
+        {
+            text-decoration: none;
+        }
+        
+        table.menu_table td a:link
+        {
+            color: #708090;
+        }
+        
+        table.menu_table td a:visited
+        {
+            color: #708090;
+        }
+        
+        table.menu_table td a:hover
+        {
+            color: #908090;
+        }
+        
+        table.menu_table td a:active
+        {
+            color: #FF8090;
+        }
+        
+        table.menu_table td
+        {
+            padding: 0px 10px 0px 10px;
+            margin: 0;
+            border: 0;
+            vertical-align: middle;
+            text-align: center;
+        }
+        
+        table.menu_table td + td
+        {
+            border-left: 1px solid #a6a6a6;
+        }
+    </style>
+
+    <div>
+
+        <table style="width: 100%; border-collapse: collapse; border: 0;" cellspacing="0" cellpadding="0" rules="none"
+            border="0">
+            <tr>
+                <td style="background-image: url('/Images/header_title_tile.gif'); background-repeat: repeat-x">
+                    <asp:HyperLink runat="server" NavigateUrl="~/Default.aspx">
+                                <asp:Image runat="server" ImageUrl="~/Images/logo.gif" AlternateText="" BorderStyle="None"/>
+                    </asp:HyperLink>
+                </td>
+                <td style="width: 100%; text-align: center; vertical-align: middle; font-size: large; font-weight: bold; font-family: Tahoma;
+                    color: #708090; background-image: url('/Images/header_title_tile.gif'); background-repeat: repeat-x;">
+                    <span style="font-size: medium;">Портал пользователей</span> &nbsp;
+                </td>
+                <td style="text-align: right; white-space: nowrap; padding-right: 10px; padding-left: 10px; vertical-align: middle;
+                    background-image: url('/Images/header_title_tile.gif'); background-repeat: repeat-x;">
+                    <div style="text-align: center; font-size: small; vertical-align: middle">
+                        <div id="date_area" style="white-space: nowrap;">
+                        </div>
+
+                        <hr style="margin: 1px 0px; width: 100%; display: block;" />
+
+                        <div id="time_area" style="white-space: nowrap;">
+                        </div>
+                    </div>
+
+                    <script type="text/javascript">
+
+                        name_month = new Array("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря");
+                        name_day = new Array("воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота");
+
+
+                        function wr_hours() {
+                            var time = new Date();
+                            time.setTime(timeServer.getTime() + time.getTime() - timeClient.getTime());
+                            var timeSec = time.getSeconds();
+                            var timeMin = time.getMinutes();
+                            var timeHours = time.getHours();
+                            var timeWr = ((timeHours < 10) ? "0" : "") + timeHours;
+                            timeWr += ":";
+                            timeWr += ((timeMin < 10) ? "0" : "") + timeMin;
+                            timeWr += ":";
+                            timeWr += ((timeSec < 10) ? "0" : "") + timeSec;
+
+                            document.getElementById("time_area").innerHTML = timeWr;
+                            document.getElementById("date_area").innerHTML = name_day[time.getDay()] + ", " + time.getDate() + " " + name_month[time.getMonth()] + " " + time.getFullYear() + " г.";
+                        }
+                        
+                    </script>
+
+                </td>
+                <td style="background-image: url('/Images/header_title_tile.gif'); background-repeat: repeat-x; padding-right: 5px;">
+                    <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
+                        <LoggedInTemplate>
+                            <div style="white-space: nowrap;">
+                                Ваш логин:
+                            </div>
+                            <div class="bold" style="padding-right: 10px; white-space: nowrap;">
+                                <asp:HyperLink runat="server" NavigateUrl="~/MyProfile.aspx" ToolTip='<%# string.Format("{0} - {1}", LoginedUser.UserFio, LoginedUser.Roles.Count == 0 ? "ролей не присвоено" : string.Join(", ", LoginedUser.Roles.Select(r => r.Name))) %>'>
+                                    <asp:LoginName ID="HeadLoginName" runat="server" />
+                                </asp:HyperLink>
+                            </div>
+                            <div style="white-space: nowrap;">
+                                [
+                                <asp:LoginStatus ID="HeadLoginStatus" runat="server" LogoutAction="Refresh" LogoutText="Выйти" OnLoggedOut="HeadLoginStatus_OnLoggedOut"
+                                    OnLoggingOut="HeadLoginStatus_OnLoggingOut" />
+                                ]
+                            </div>
+                        </LoggedInTemplate>
+                    </asp:LoginView>
+                </td>
+            </tr>
+        </table>
+
+        <table cellspacing="0" cellpadding="0" style="width: 100%; border: 0; margin-top: 15px;" rules="none" border="0"
+            runat="server" id="menuTable">
+            <tr>
+                <td style="text-align: right;">
+
+                    <table class="menu_table" style="border: 0;" rules="none" border="0">
+                        <tr>
+                            <td runat="server" visible='<%# AmI(1, 2, 3) %>'>
+                                <a href="~/Users.aspx" runat="server" style="white-space: nowrap;">Список пользователей</a>
+                            </td>
+                            <td runat="server" visible='<%# AmI(1, 2) %>'>
+                                <a href="~/Activity.aspx" runat="server" style="white-space: nowrap;">Активность</a>
+                            </td>
+                        </tr>
+                    </table>
+
+                </td>
+            </tr>
+        </table>
+
+        <table cellspacing="0" cellpadding="0" style="width: 100%; border: 0; margin-top: 15px;" rules="none" border="0">
+            <tr>
+                <td style="width: 100%; text-align: center; vertical-align: middle; font-size: large; font-weight: bold; font-family: Tahoma;
+                    color: #708090; padding-left: 30px; padding-right: 30px;">
+                    <asp:Literal runat="server" ID="lCaption" Mode="Encode" />
+                </td>
+            </tr>
+        </table>
+
+        <div class="page_content">
+
+            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+
+        </div>
+    </div>
+    <div>
+        <div style="text-align: center;">
+            <asp:Image ImageUrl="~/Images/title_row.gif" AlternateText="" runat="server" /><br />
+            <div>
+                &copy; 2012&nbsp;г.&nbsp;&nbsp;&nbsp;ООО «Рога и Копыта»</div>
+
+            <p style="margin-top: 5px;">
+                <a href="~/Anonym/Contacts.aspx" runat="server">Контакты</a>
+            </p>
+
+        </div>
+    </div>
+    </form>
+</body>
+</html>
+

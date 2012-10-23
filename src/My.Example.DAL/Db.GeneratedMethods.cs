@@ -423,7 +423,6 @@ namespace My.Example.DAL
             x.Browser = GetNullableRef<string>(r["Browser"]);
             x.UserHostAddress = GetNullableRef<string>(r["UserHostAddress"]);
             x.IsPostBack = (bool) r["IsPostBack"];
-            x.ImpersonatedByUserId = GetNullableVal<int>(r["ImpersonatedByUserId"]);
             return x;
         }
         [NotNull]
@@ -477,8 +476,6 @@ namespace My.Example.DAL
             if (f.CreatedDateEnd.HasValue) wheres.Add(@" ua.[CreatedDate]<= @CreatedDateEnd ");
             if (f.UserId != null && f.UserId.Count > 0)
                 wheres.Add(string.Format(" ua.[UserId] in ({0}) ", string.Join(",", f.UserId) ));
-            if (f.ImpersonatedByUserId != null && f.ImpersonatedByUserId.Count > 0)
-                wheres.Add( (f.ImpersonatedByUserId.Any(x=>x!=null) ? string.Format(" ua.[ImpersonatedByUserId] in ({0}) ", string.Join(",", f.ImpersonatedByUserId.Where(x=>x!=null) )) :"" )+ (f.ImpersonatedByUserId.Any(x => x == null)? (f.ImpersonatedByUserId.Any(x=>x!=null)?" or ":"") + " ua.[ImpersonatedByUserId] is null ":""  ));
 
             com.Parameters.AddWithValue("IsChangePsw", GetNullableParamVal(f.IsChangePsw));
             com.Parameters.AddWithValue("IsPostBack", GetNullableParamVal(f.IsPostBack));
@@ -562,9 +559,9 @@ namespace My.Example.DAL
             using (SqlCommand com = PrepareCommand(con))
             {
                 com.CommandText = @"declare @id as table ([UserActivityId] int); insert into dbo.[UserActivities]
-                                ([UserId], [IsChangePsw], [RawUrl], [Browser], [UserHostAddress], [IsPostBack], [ImpersonatedByUserId]) 
+                                ([UserId], [IsChangePsw], [RawUrl], [Browser], [UserHostAddress], [IsPostBack]) 
                                output inserted.[UserActivityId] into @id values
-                                (@UserId, @IsChangePsw, @RawUrl, @Browser, @UserHostAddress, @IsPostBack, @ImpersonatedByUserId);select t.* from dbo.[UserActivities] t join @id i on t.[UserActivityId]=i.[UserActivityId]  ";
+                                (@UserId, @IsChangePsw, @RawUrl, @Browser, @UserHostAddress, @IsPostBack);select t.* from dbo.[UserActivities] t join @id i on t.[UserActivityId]=i.[UserActivityId]  ";
                   
                 com.Parameters.AddWithValue("UserId", x.UserId);
                 com.Parameters.AddWithValue("IsChangePsw", x.IsChangePsw);
@@ -572,7 +569,6 @@ namespace My.Example.DAL
                 com.Parameters.AddWithValue("Browser", GetNullableParamVal(x.Browser));
                 com.Parameters.AddWithValue("UserHostAddress", GetNullableParamVal(x.UserHostAddress));
                 com.Parameters.AddWithValue("IsPostBack", x.IsPostBack);
-                com.Parameters.AddWithValue("ImpersonatedByUserId", GetNullableParamVal(x.ImpersonatedByUserId));
 
                 UserActivityDTO ins = ExecUserActivityDTOOne(com);
                 InsertAddon(ins);
@@ -589,12 +585,12 @@ namespace My.Example.DAL
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append(@"insert into dbo.[UserActivities]
-                            ([UserId], [IsChangePsw], [RawUrl], [Browser], [UserHostAddress], [IsPostBack], [ImpersonatedByUserId]) 
+                            ([UserId], [IsChangePsw], [RawUrl], [Browser], [UserHostAddress], [IsPostBack]) 
                             output inserted.*");
                 int counter = 0;
                 foreach (UserActivityDTO xi in x)
                 {
-                    sb.Append(string.Format(@" select @UserId{0}, @IsChangePsw{0}, @RawUrl{0}, @Browser{0}, @UserHostAddress{0}, @IsPostBack{0}, @ImpersonatedByUserId{0}
+                    sb.Append(string.Format(@" select @UserId{0}, @IsChangePsw{0}, @RawUrl{0}, @Browser{0}, @UserHostAddress{0}, @IsPostBack{0}
                               union all", counter));
                     com.Parameters.AddWithValue(string.Format("UserId{0}", counter), xi.UserId);
                     com.Parameters.AddWithValue(string.Format("IsChangePsw{0}", counter), xi.IsChangePsw);
@@ -602,7 +598,6 @@ namespace My.Example.DAL
                     com.Parameters.AddWithValue(string.Format("Browser{0}", counter), GetNullableParamVal(xi.Browser));
                     com.Parameters.AddWithValue(string.Format("UserHostAddress{0}", counter), GetNullableParamVal(xi.UserHostAddress));
                     com.Parameters.AddWithValue(string.Format("IsPostBack{0}", counter), xi.IsPostBack);
-                    com.Parameters.AddWithValue(string.Format("ImpersonatedByUserId{0}", counter), GetNullableParamVal(xi.ImpersonatedByUserId));
 
                     counter++;
                 }

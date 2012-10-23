@@ -1,0 +1,70 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Anonym.master.cs" Inherits="My.Example.Web.Anonym.Anonym" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <%-- «{проект} – страница – пользователь» --%>
+    <link href="~/Styles/Site.css" rel="stylesheet" type="text/css" />
+<%--    <link href="~/Styles/Common.css" rel="stylesheet" type="text/css" />
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="~/favicon.ico" type="image/vnd.microsoft.icon" />
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/vnd.microsoft.icon" />
+--%>
+    <script src="/Scripts/jquery-1.7.2.min.js" type="text/javascript"></script>
+
+    <script src="/Scripts/jquery.cookie.js" type="text/javascript"></script>
+
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+
+</head>
+<body>
+    <form id="form1" runat="server">
+
+    <table style="width: 100%; border: 0;" border="0" cellspacing="0" cellpadding="0" rules="none">
+        <tr>
+            <td style="background-image: url('/Images/header_title_tile.gif'); background-repeat: repeat-x">
+                <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Default.aspx">
+                    <asp:Image ID="Image1" runat="server" ImageUrl="~/Images/logo.gif" AlternateText="" BorderStyle="None" />
+                </asp:HyperLink>
+            </td>
+            <td style="width: 100%; text-align: center; vertical-align: middle; font-weight: bold; font-family: Tahoma; color: #708090;
+                background-image: url('/Images/header_title_tile.gif'); background-repeat: repeat-x">
+                <span style="font-size: medium; position: absolute; right: 33%; left: 33%">Портал пользователей</span>
+            </td>
+        </tr>
+    </table>
+
+    <table cellspacing="0" cellpadding="0" style="width: 100%; border: 0;" rules="none" border="0">
+        <tr>
+            <td style="width: 100%; text-align: center; vertical-align: middle; font-size: large; font-weight: bold; font-family: Tahoma;
+                color: #708090; padding-left: 30px; padding-right: 30px;">
+                <asp:Literal runat="server" ID="lCaption" Mode="Encode" />
+            </td>
+        </tr>
+    </table>
+
+    <div>
+
+        <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+
+    </div>
+    <div style="position: absolute; top: 80%; width: 100%;">
+        <div style="text-align: center;">
+            <asp:Image ImageUrl="~/Images/title_row.gif" AlternateText="" runat="server" /><br />
+            <div>
+                &copy; 2012&nbsp;г.&nbsp;&nbsp;&nbsp;ООО «Рога и копыта»</div>
+
+            <p style="margin-top: 5px;">
+                <a href="~/Anonym/Contacts.aspx" runat="server">Контакты</a>
+            </p>
+
+        </div>
+    </div>
+    </form>
+</body>
+</html>
+

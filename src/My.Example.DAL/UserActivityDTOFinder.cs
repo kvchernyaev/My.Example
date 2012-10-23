@@ -26,11 +26,10 @@ namespace My.Example.DAL
         [CanBeNull] public DateTime? CreatedDateBegin { get; set; }
         [CanBeNull] public DateTime? CreatedDateEnd { get; set; }
         [CanBeNull] public bool? IsPostBack { get; set; }
-        [CanBeNull] public List<int?> ImpersonatedByUserId { get; set; }
 
-        [CanBeNull] public List<int> NotUserId { get; set; }
+        [CanBeNull] public List<int> UserIdNotIn { get; set; }
 
-        public bool IsEmpty { get {  return string.IsNullOrEmpty(SearchString) && (UserId==null || UserId.Count == 0) && IsChangePsw==null && CreatedDateBegin==null && CreatedDateEnd==null && IsPostBack==null && (ImpersonatedByUserId==null || ImpersonatedByUserId.Count == 0) && (NotUserId==null || NotUserId.Count == 0);} }
+        public bool IsEmpty { get {  return string.IsNullOrEmpty(SearchString) && (UserId==null || UserId.Count == 0) && IsChangePsw==null && CreatedDateBegin==null && CreatedDateEnd==null && IsPostBack==null && (UserIdNotIn==null || UserIdNotIn.Count == 0);} }
 
 
         public override UserActivityDTOFinder Clone()
@@ -38,10 +37,8 @@ namespace My.Example.DAL
             UserActivityDTOFinder rv = base.Clone();
             if (this.UserId != null)
                 rv.UserId = new List<int>(this.UserId);
-            if (this.ImpersonatedByUserId != null)
-                rv.ImpersonatedByUserId = new List<int?>(this.ImpersonatedByUserId);
-            if (this.NotUserId != null)
-                rv.NotUserId = new List<int>(this.NotUserId);
+            if (this.UserIdNotIn != null)
+                rv.UserIdNotIn = new List<int>(this.UserIdNotIn);
             return rv;
         }
 
@@ -58,16 +55,11 @@ namespace My.Example.DAL
                     && (this.CreatedDateBegin == other.CreatedDateBegin)
                     && (this.CreatedDateEnd == other.CreatedDateEnd)
                     && (this.IsPostBack == other.IsPostBack)
-                    && ((ImpersonatedByUserId == null || ImpersonatedByUserId.Count == 0) && (other.ImpersonatedByUserId == null || other.ImpersonatedByUserId.Count == 0) ||
-                              ImpersonatedByUserId != null && other.ImpersonatedByUserId != null &&
-                              ImpersonatedByUserId.Count == other.ImpersonatedByUserId.Count &&
-                              (from x in ImpersonatedByUserId orderby x select x).Distinct()
-                                .SequenceEqual((from x in other.ImpersonatedByUserId orderby x select x).Distinct()))
-                    && ((NotUserId == null || NotUserId.Count == 0) && (other.NotUserId == null || other.NotUserId.Count == 0) ||
-                              NotUserId != null && other.NotUserId != null &&
-                              NotUserId.Count == other.NotUserId.Count &&
-                              (from x in NotUserId orderby x select x).Distinct()
-                                 .SequenceEqual((from x in other.NotUserId orderby x select x).Distinct()));
+                    && ((UserIdNotIn == null || UserIdNotIn.Count == 0) && (other.UserIdNotIn == null || other.UserIdNotIn.Count == 0) ||
+                              UserIdNotIn != null && other.UserIdNotIn != null &&
+                              UserIdNotIn.Count == other.UserIdNotIn.Count &&
+                              (from x in UserIdNotIn orderby x select x).Distinct()
+                                 .SequenceEqual((from x in other.UserIdNotIn orderby x select x).Distinct()));
         }
 
 // ReSharper restore InconsistentNaming

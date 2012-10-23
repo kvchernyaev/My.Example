@@ -1,0 +1,46 @@
+﻿<%--
+Default skin template. The following skins are provided as examples only.
+
+1. Named control skin. The SkinId should be uniquely defined because
+   duplicate SkinId's per control type are not allowed in the same theme.
+
+<asp:GridView runat="server" SkinId="gridviewSkin" BackColor="White" >
+   <AlternatingRowStyle BackColor="Blue" />
+</asp:GridView>
+
+2. Default skin. The SkinId is not defined. Only one default 
+   control skin per control type is allowed in the same theme.
+
+<asp:Image runat="server" ImageUrl="~/images/image1.jpg" />
+--%>
+<asp:GridView runat="server"  CellPadding="3" AutoGenerateColumns="False"  GridLines="Both" >
+    <SortedAscendingHeaderStyle CssClass="column_sorted_asc" />
+    <SortedDescendingHeaderStyle CssClass="column_sorted_desc" />
+    <SortedAscendingCellStyle CssClass="cell_sorted_asc" />
+    <SortedDescendingCellStyle CssClass="cell_sorted_desc" />
+    <PagerSettings Mode="NumericFirstLast" />
+    <AlternatingRowStyle CssClass="altrow" />    
+</asp:GridView>
+
+<asp:RequiredFieldValidator runat="server" Text="*"  ForeColor="Red" Display="Dynamic" />
+
+<asp:RegularExpressionValidator runat="server" Text="*"  ForeColor="Red" Display="Dynamic" />
+
+<asp:CompareValidator runat="server"  Text="*"  ForeColor="Red" Display="Dynamic"  />
+
+<asp:CustomValidator runat="server" Text="*" ForeColor="Red" Display="Dynamic" />
+
+<ajaxToolkit:CalendarExtender  runat="server" Format="dd.MM.yyyy"  FirstDayOfWeek="Monday" TodaysDateFormat="dddd, d MMM yyyy" Animated="True" DaysModeTitleFormat="MMMM yyyy"/>
+
+<asp:Button runat="server" SkinID="Edit" Text="Ред." ToolTip="Изменить" />
+<asp:Button runat="server" SkinID="Update" Text="OK" ToolTip="Сохранить" />
+<asp:Button runat="server" SkinID="Cancel" Text="Отм." ToolTip="Отмена" />
+<asp:Button runat="server" SkinID="Delete" Text="x" ToolTip="Удалить"  />
+
+<ucc:CheckBoxListEx runat="server" SkinID="Filter" 
+  ToolTipField="ToolTip" ForeColorField="Color" BoldSelected="True"  
+/>
+
+<ucc:CheckBoxListEx runat="server" SkinID="ForUI" 
+   ToolTipField="ToolTip" DataCheckField="Checked" EnabledField="Enabled" ForeColorField="Color"
+/>

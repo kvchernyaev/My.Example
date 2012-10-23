@@ -76,10 +76,8 @@
 
         <p name='IsPostBack' type='bool' finder='' insertable=''/>
 
-        <p name='ImpersonatedByUserId' type='int?' finder='liststandart' insertable=''/>
-
         <finderAddonFields>
-            <p name='NotUserId' type='List&lt;int&gt;' canFindByNull='false'/>
+            <p name='UserIdNotIn' type='List&lt;int&gt;' canFindByNull='false'/>
         </finderAddonFields>
     </dto>
 

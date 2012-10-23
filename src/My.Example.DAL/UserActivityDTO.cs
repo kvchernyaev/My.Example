@@ -31,7 +31,7 @@ namespace My.Example.DAL
         /// <summary>
         /// For insert
         /// </summary>
-        public UserActivityDTO(int userid, bool ischangepsw, [CanBeNull] string rawurl, [CanBeNull] string browser, [CanBeNull] string userhostaddress, bool ispostback, int? impersonatedbyuserid)
+        public UserActivityDTO(int userid, bool ischangepsw, [CanBeNull] string rawurl, [CanBeNull] string browser, [CanBeNull] string userhostaddress, bool ispostback)
         {
             UserId = userid;
             IsChangePsw = ischangepsw;
@@ -39,7 +39,6 @@ namespace My.Example.DAL
             Browser = browser;
             UserHostAddress = userhostaddress;
             IsPostBack = ispostback;
-            ImpersonatedByUserId = impersonatedbyuserid;
 
         }
 
@@ -65,8 +64,6 @@ namespace My.Example.DAL
         public string UserHostAddress { get; set; }
 
         public bool IsPostBack { get; set; }
-
-        public int? ImpersonatedByUserId { get; set; }
 
         protected override bool InteriorEquals(UserActivityDTO other)
         {
