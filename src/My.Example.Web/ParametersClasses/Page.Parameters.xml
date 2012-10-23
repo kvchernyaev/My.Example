@@ -1,0 +1,33 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+<Page.Parameters namespace='My.Example.Web' DALnamespace='My.Example.DAL' baseclass='PageParametersBaseExample'>
+
+    <class name='EditUser'>
+        <f name='UserId' type='int'  canOmit='false' />
+        <f name='CurrentUser' type='UserDTO' canOmit='false' QSname='UserId'/>
+    </class>
+
+
+    <class name='Users'>
+        <f name='LocateUserId' type='int' canOmit='true'/>
+
+        <f name='SearchString' type='string' canOmit='true'  />
+        <f name='RoleId' type='int[]' canOmit='true'/>
+        <f name='RoleCanBeNull' type='bool' canOmit='true' />
+        <f name='CreatedDateBegin' type='DateTime' canOmit='true' />
+        <f name='CreatedDateEnd' type='DateTime' canOmit='true' />
+        <f name='IsActive' type='bool' canOmit='true' />
+    </class>
+
+
+    <class name='Activity'>
+        <f name='SearchString' type='string' />
+        <f name='FilterUserStr' type='string' />
+        <f name='FilterUsers' type='int[]' />
+        <f name='FilterUserAny' type='bool' />
+        <f name='FilterExcludeMe' type='bool' />
+        <f name='FilterDateAny' type='bool' />
+        <f name='FilterDateBegin' type='DateTime' />
+        <f name='FilterDateEnd' type='DateTime' />
+        <f name='IsPostBack' type='string' />
+    </class>
+</Page.Parameters>

@@ -30,7 +30,6 @@ namespace My.Example.DAL
 
 select top 1 ua.CreatedDate from UserActivities ua join dbo.Users u on ua.UserId = u.UserId where {0} and ua.IsChangePsw=0 order by ua.CreatedDate desc;
 select top 1 ua.CreatedDate from UserActivities ua join dbo.Users u on ua.UserId = u.UserId where {0} and ua.IsChangePsw=1 order by ua.CreatedDate desc;
-
                     ";
 
 
@@ -113,11 +112,11 @@ select top 1 ua.CreatedDate from UserActivities ua join dbo.Users u on ua.UserId
             {
                 List<string> w = new List<string>(2);
                 if (f.Roles != null && f.Roles.Count > 0)
-                    w.Add(string.Format(@" exists(select * from dbo.v_UsersByRoles ubr where ubr.UserId=u.UserId and ubr.UserRoleId in ({0}) ) ",
+                    w.Add(string.Format(@" exists(select * from dbo.UsersByRoles ubr where ubr.UserId=u.UserId and ubr.UserRoleId in ({0}) ) ",
                                         string.Join(", ", f.Roles)));
 
                 if (f.SearchByNullRoles)
-                    w.Add("not exists(select * from dbo.v_UsersByRoles ubr where ubr.UserId=u.UserId)");
+                    w.Add("not exists(select * from dbo.UsersByRoles ubr where ubr.UserId=u.UserId)");
                 wheres.Add(string.Join(" or ", w));
             }
         }
@@ -137,5 +136,11 @@ select top 1 ua.CreatedDate from UserActivities ua join dbo.Users u on ua.UserId
             }
         }
         #endregion
+
+        static partial void GetWhereClauseAddon(UserActivityDTOFinder f, List<string> wheres, SqlCommand com)
+        {
+            if (f.UserIdNotIn != null && f.UserIdNotIn.Count > 0)
+                wheres.Add(@" ua.UserId not in (" + string.Join(", ", f.UserIdNotIn) + ") ");
+        }
     }
 }

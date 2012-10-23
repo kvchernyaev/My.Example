@@ -1,0 +1,6 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+<PageBase namespace='My.Example.Web' DALnamespace='My.Example.DAL' classname='PageBaseExample&lt;TParameters&gt;'
+           usingNamespaces=''>
+    <selectall dto='UserRoleDTO' idname='UserRoleId' generateSelectAllForUI='' />
+
+</PageBase>

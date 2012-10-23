@@ -25,7 +25,7 @@ using NLog;
 
 namespace My.Example.Web
 {
-    public class PageBaseExample<TParameters> : PageBaseLogined<TParameters>
+    public partial class PageBaseExample<TParameters> : PageBaseLogined<TParameters>
             where TParameters : PageParametersBase
     {
         // ReSharper disable StaticFieldInGenericType
@@ -105,6 +105,24 @@ namespace My.Example.Web
             Regex r = new Regex(@"(\+?\s*\d+\s*)?(\(\s*\d+\s*\)\s*)?[\d\-\s\\\/]{4,}");
             string s = r.Replace(tel, m => string.Format("<span style='white-space: nowrap;'>{0}</span> ", m.Captures[0].Value));
             return s;
+        }
+
+
+        protected void gv_Users_Set_RolesGroups_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            // раскрасим строки в разные цвета от роли
+            //if (e.Row.RowType == DataControlRowType.DataRow)
+            //    if (e.Row.DataItem != null && ((dynamic)e.Row.DataItem).IsEndPoint)
+            //        e.Row.BackColor = Color.BlanchedAlmond;
+
+            ListView lvRoles = (ListView) e.Row.FindControl("lvRoles");
+            if (lvRoles != null && e.Row.DataItem != null)
+            {
+                dynamic u = e.Row.DataItem;
+                IEnumerable<UserRoleDTO> roles = ((List<UserRoleDTO>) u.Roles);
+                lvRoles.DataSource = roles.Select(r => new ForUI(r, ForUICommon.For.Cbl)).ToArray();
+                lvRoles.DataBind();
+            }
         }
     }
 }

@@ -1,0 +1,186 @@
+﻿body
+{
+    color: #708090;
+    border-color: #DEE8EF;
+    font: normal 10pt Tahoma;
+}
+
+.blacksupplier
+{
+    background-color: pink;
+}
+.fromNeibourTT
+{
+    background-color: lightgray;
+}
+.notacceptedstake
+{
+    background-color: pink;
+}
+
+.place1
+{
+    background: #00FF00;
+}
+.place2
+{
+    background: #FFFF00;
+}
+.place3
+{
+    background: #EEAEEE;
+}
+
+table
+{
+    border-collapse: collapse;
+    border-color: #DEE8EF;
+    border-spacing: 0;
+}
+
+
+.altrow  
+{
+    background-color: #FCFCFC;
+}
+
+.page_content
+{
+    padding: 10px;
+}
+
+.column_sorted_asc :last-child:last-child:after
+{
+    content: '';
+    padding: 0 0 0 20px;
+    background-image: url("/Images/arrow-270.png");
+    background-repeat: no-repeat;
+    border: 0;
+    background-position: right;
+}
+.column_sorted_desc :last-child:after
+{
+    content: '';
+    padding: 0 0 0 20px;
+    background-image: url("/Images/arrow-090.png");
+    background-repeat: no-repeat;
+    border: 0;
+    background-position: right;
+}
+
+.cell_sorted_asc
+{
+    background-color: LightYellow;
+}
+.cell_sorted_desc
+{
+    background-color: LightYellow;
+}
+
+/*еще не посещались пользователем*/
+a:link
+{
+    color: #708090;
+    text-decoration: underline;
+}
+a:visited
+{
+    color: #708090;
+    text-decoration: underline;
+}
+
+
+/*Определяет стиль элемента при наведении на него курсора мыши, 
+но при этом элемент еще не активирован, иными словами кнопка мыши не нажата.*/
+a:hover
+{
+    color: #908090;
+    text-decoration: none;
+}
+
+/*Активной ссылка становится при нажатии на нее*/
+a:active
+{
+    color: #FF8090;
+    text-decoration: none;
+}
+
+.dg1_foot, .dg1_page
+{
+    background: #dee8ef;
+    font: bold 8pt Tahoma;
+    padding: 0 2px;
+}
+
+
+th
+{
+    background-color: #dee8ef;
+    border: solid 1px #dee8ef;
+    font: bold 8pt Tahoma;
+    font-size: small;
+    padding: 0 2px;
+    vertical-align: top;
+}
+
+.dg1
+{
+    border: solid 1px #DEE8EF;
+    margin-bottom: 0;
+}
+.dg1 td
+{
+    padding: 2 5px;
+}
+
+/* мышка над кнопкой */
+input[type='submit']:hover, input[type='button']:hover
+{
+    color: #333;
+    background-color: #D9C3FF;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    border-color: #708090;
+}
+/* нажатая кнопка, нельзя ставить , input[type='file']:active */
+input[type='submit']:active, input[type='button']:active
+{
+    background-color: #D9D3FF;
+    position: relative;
+    top: 2px;
+}
+/* мышка далеко */
+input[type="submit"], input[type='button']
+{
+    background-color: #DEE8EF;
+    border: 1px #9eabb6 solid;
+    color: #708090;
+    font-family: Tahoma;
+    font-size: 0.8em;
+    margin-left: 1px;
+    margin-right: 1px;
+    margin-bottom: 1px;
+    height: 20px;
+    outline: none;
+    filter: chroma(color=#000000);
+}
+
+input[type="text"], input[type="password"], select, textarea
+{
+    background-color: #E9F3FC;
+    border: 1px #9EABB6 solid;
+    color: #69737D;
+}
+
+input:disabled, input:disabled:hover, input:disabled:active
+{
+    background-color: #FEF8FF;
+    color: lightgray;
+    top: 0;
+    box-shadow: none;
+    border: 1px #9eabb6 solid;
+}
+
+.CollapsiblePanelExtender_Image
+{
+    cursor: pointer;
+}
