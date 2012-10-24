@@ -21,6 +21,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My.Example.DAL", "My.Example.DAL\My.Example.DAL.csproj", "{9D6D3486-7C44-471A-A176-61B95136723E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Db", "Db", "{3C20C553-0AE8-4D74-8781-D85212A462FB}"
+	ProjectSection(SolutionItems) = preProject
+		DB\CreateTables.sql = DB\CreateTables.sql
+		DB\My.Example_backup = DB\My.Example_backup
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My.Example.Web", "My.Example.Web\My.Example.Web.csproj", "{0FEE386F-A9CA-457C-BEF6-4B1D6066ABEE}"
 EndProject
