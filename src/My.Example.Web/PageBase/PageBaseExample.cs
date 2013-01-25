@@ -31,7 +31,7 @@ namespace My.Example.Web
         // ReSharper disable StaticFieldInGenericType
         [NotNull] protected static readonly Db Db;
         [NotNull] protected static readonly CacheExample BLCache;
-        [NotNull] protected static readonly Logger Logger = LogManager.GetLogger("PageBaseAuctions");
+        [NotNull] protected static readonly Logger Logger = LogManager.GetLogger("PageBaseExample");
         // ReSharper restore StaticFieldInGenericType
 
         static PageBaseExample()
@@ -58,12 +58,13 @@ namespace My.Example.Web
             {
                 UserDTO u = HttpContext.Current.Cache[HttpContext.Current.Session.SessionID + "LoginedUser"] as UserDTO;
                 string login = HttpContext.Current.User.Identity.Name;
-                if (u == null || login != u.Login)
+                if (u == null || string.Compare(login, u.Login, StringComparison.InvariantCultureIgnoreCase) != 0)
                 {
+                    Logger.Info("LoginedUser - find user login=[{0}] from cache=[{2}] session={1}", login, HttpContext.Current.Session.SessionID,
+                                u == null ? "null" : u.Login);
                     u = Db.FindUserDTO(login);
                     if (u == null)
                     {
-                        // это происходит, когда в БД меняется логин текущего пользователя
                         try
                         {
                             FormsAuthentication.SignOut();
@@ -81,11 +82,19 @@ namespace My.Example.Web
                         throw new DislogoutException(string.Format("No user with login=[{0}], so signed out", login));
                     }
 
-                    HttpContext.Current.Cache.Add(HttpContext.Current.Session.SessionID + "LoginedUser", u,
-                                                  BLCache.GetUserAggregateCacheDependency(), DateTime.Today.AddDays(1), TimeSpan.Zero, CacheItemPriority.Normal, null);
+                    HttpContext.Current.Cache.Insert(HttpContext.Current.Session.SessionID + "LoginedUser", u,
+                                                     BLCache.GetUserAggregateCacheDependency(),
+                                                     DateTime.Today.AddDays(1), TimeSpan.Zero,
+                                                     CacheItemPriority.Normal, OnRemoveLoginedUserCallback);
                 }
                 return u;
             }
+        }
+
+
+        static void OnRemoveLoginedUserCallback(string key, object value, CacheItemRemovedReason reason)
+        {
+            Logger.Warn("OnRemoveLoginedUserCallback key=[{0}] value=[{1}] reason=[{2}]", key, value, reason);
         }
 
 
