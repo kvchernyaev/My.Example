@@ -9,7 +9,7 @@
 <body>
     <form id="form1" runat="server">
     <div>
-        <ucc:CountChooser runat="server" ID="cc" Counts="10,20,200,500" Title="колво" DefaultValue="20" />
+        <ucc:CountChooser runat="server" ID="cc" Counts="10,20,200,500" Title="Количество пользователей на странице:" DefaultValue="20" />
         <asp:Button runat="server" Text="test" OnClick="OnClick" />
         <asp:Button runat="server" Text="test2" />
 
