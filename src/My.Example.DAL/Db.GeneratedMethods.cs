@@ -1,6 +1,7 @@
 #region usings
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -11,6 +12,7 @@ using System.Text;
 using System.Web;
 
 using JetBrains.Annotations;
+
 using My.Common.DAL;
 using My.Common;
 #endregion
@@ -22,12 +24,24 @@ using My.Common;
 
 namespace My.Example.DAL
 {
-    public partial class Db : DbBase
+    public partial class Db : DbBase, IDb
     {
         public Db(string connectionStringName = null)
         {
-            ConnectionString = string.IsNullOrEmpty(connectionStringName) ? ConfigurationManager.ConnectionStrings["My.Example"].ConnectionString
-                 :  ConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+            ConnectionStringSettingsCollection cscol = ConfigurationManager.ConnectionStrings;
+            if (cscol == null)
+                throw new Exception("ConfigurationManager.ConnectionStrings==null");
+
+            string csName = string.IsNullOrEmpty(connectionStringName)
+                                ? "My.Example"
+                                : connectionStringName;
+
+            ConnectionStringSettings cs = cscol[csName];
+            if (cs == null)
+                throw new MyException("No connection string [{0}]", csName);
+
+            ConnectionString = cs.ConnectionString;
+
             Init();
         }
         /// <summary>ConnectionString is already configured. Here you can init CommandTimeout field.</summary>
@@ -194,6 +208,7 @@ namespace My.Example.DAL
         }
         [CanBeNull]
         public UserDTO FindUserDTO([NotNull] string login)
+
         {
             using (SqlConnection con = new SqlConnection(ConnectionString))
             using (SqlCommand com = PrepareCommand(con, ct:CommandType.Text))
@@ -206,6 +221,7 @@ namespace My.Example.DAL
         }
         [CanBeNull]
         public UserDTO FindUserDTO([NotNull] string login, [NotNull] string passwordhash)
+
         {
             using (SqlConnection con = new SqlConnection(ConnectionString))
             using (SqlCommand com = PrepareCommand(con, ct:CommandType.Text))
@@ -219,6 +235,7 @@ namespace My.Example.DAL
         }
         [NotNull]
         public List<UserDTO> FindUserDTOByLoginOrEmail([NotNull] string login, [CanBeNull] string email)
+
         {
             using (SqlConnection con = new SqlConnection(ConnectionString))
             using (SqlCommand com = PrepareCommand(con, ct:CommandType.Text))
@@ -293,8 +310,9 @@ namespace My.Example.DAL
             {
                 string whereClause = GetWhereClause(f, com);
                 if(f==null) f = new UserDTOFinder();
-                com.CommandText = string.Format(startIndex == 0 && count == int.MaxValue
+                com.CommandText = string.Format(startIndex == 0 ? count == int.MaxValue
                                                         ? @" select u.* from dbo.[Users] u {1} order by {0} "
+                                                        : @" select top " + count + @" u.* from dbo.[Users] u {1} order by {0} "
                                                         : @" select * from (
                                                                 select u.*, row_number() over(order by {0}) r from dbo.[Users] u 
                                                                  {1}
@@ -515,8 +533,9 @@ namespace My.Example.DAL
             {
                 string whereClause = GetWhereClause(f, com);
                 if(f==null) f = new UserActivityDTOFinder();
-                com.CommandText = string.Format(startIndex == 0 && count == int.MaxValue
+                com.CommandText = string.Format(startIndex == 0 ? count == int.MaxValue
                                                         ? @" select ua.* from dbo.[UserActivities] ua {1} order by {0} "
+                                                        : @" select top " + count + @" ua.* from dbo.[UserActivities] ua {1} order by {0} "
                                                         : @" select * from (
                                                                 select ua.*, row_number() over(order by {0}) r from dbo.[UserActivities] ua 
                                                                  {1}

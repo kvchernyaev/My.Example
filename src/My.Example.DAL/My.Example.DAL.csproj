@@ -44,10 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompleteStubDb.cs">
+      <DependentUpon>IncludeDTO.tt</DependentUpon>
+    </Compile>
     <Compile Include="Db.cs" />
     <Compile Include="Db.GeneratedMethods.cs">
       <DependentUpon>IncludeDTO.tt</DependentUpon>
     </Compile>
+    <Compile Include="IDb.cs">
+      <DependentUpon>IncludeDTO.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IDbUserAddon.cs" />
     <Compile Include="IncludeDTO.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

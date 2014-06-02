@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{4E91A3F8-B2E7-4F20-9243-D90474A9756C}"
 	ProjectSection(SolutionItems) = preProject
 		My.Common\Common.tt = My.Common\Common.tt
@@ -12,6 +14,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{4E91A3
 		My.Common\PageBase.tt = My.Common\PageBase.tt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Db", "Db", "{3C20C553-0AE8-4D74-8781-D85212A462FB}"
+	ProjectSection(SolutionItems) = preProject
+		DB\CreateTables.sql = DB\CreateTables.sql
+		DB\My.Example_backup = DB\My.Example_backup
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My.Common", "My.Common\My.Common\My.Common.csproj", "{6DCE9DA1-CF5D-4C01-A71A-4612A3125DC0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My.Common.Web", "My.Common\My.Common.Web\My.Common.Web.csproj", "{4B009CAF-EF2A-458C-A572-C975D3DA2E4E}"
@@ -19,12 +27,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My.WebServerControls", "My.Common\My.WebServerControls\My.WebServerControls.csproj", "{10EB7263-9E98-410E-B892-0D54D82AF425}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My.Example.DAL", "My.Example.DAL\My.Example.DAL.csproj", "{9D6D3486-7C44-471A-A176-61B95136723E}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Db", "Db", "{3C20C553-0AE8-4D74-8781-D85212A462FB}"
-	ProjectSection(SolutionItems) = preProject
-		DB\CreateTables.sql = DB\CreateTables.sql
-		DB\My.Example_backup = DB\My.Example_backup
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My.Example.Web", "My.Example.Web\My.Example.Web.csproj", "{0FEE386F-A9CA-457C-BEF6-4B1D6066ABEE}"
 EndProject
