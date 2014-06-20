@@ -5,9 +5,8 @@ using System.Collections.Specialized;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Web;
 
@@ -50,16 +49,18 @@ namespace My.Example.DAL
 
         #region UserRoleDTO methods
         [NotNull]
-        static UserRoleDTO ReadUserRoleDTO([NotNull] IDataRecord r)
+        UserRoleDTO ReadUserRoleDTO([NotNull] IDataRecord r)
         {
             UserRoleDTO x = new UserRoleDTO();
             x.UserRoleId = (int) r["UserRoleId"];
             x.Name = (string) r["Name"];
             x.Description = GetNullableRef<string>(r["Description"]);
+            PostReadUserRoleDTO(x,r);
             return x;
         }
+        partial void PostReadUserRoleDTO([NotNull] UserRoleDTO x, [NotNull] IDataRecord r);
         [NotNull]
-        static List<UserRoleDTO> ReadUserRoleDTOList([NotNull] IDataReader r)
+        List<UserRoleDTO> ReadUserRoleDTOList([NotNull] IDataReader r)
         {
             List<UserRoleDTO> l = new List<UserRoleDTO>();
             while (r.Read())
@@ -67,7 +68,7 @@ namespace My.Example.DAL
             return l;
         }
         [CanBeNull]
-        static UserRoleDTO ExecUserRoleDTOOne([NotNull] SqlCommand com)
+        UserRoleDTO ExecUserRoleDTOOne([NotNull] SqlCommand com)
         {
             UserRoleDTO rv = null;
             using (SqlDataReader r = com.ExecuteReader())
@@ -76,7 +77,7 @@ namespace My.Example.DAL
             return rv;
         }
         [NotNull]
-        static List<UserRoleDTO> ExecUserRoleDTOList([NotNull] SqlCommand com)
+        List<UserRoleDTO> ExecUserRoleDTOList([NotNull] SqlCommand com)
         {
             using (SqlDataReader r = com.ExecuteReader())
                 return ReadUserRoleDTOList(r);
@@ -119,7 +120,7 @@ namespace My.Example.DAL
 
         #region UserDTO methods
         [NotNull]
-        static UserDTO ReadUserDTO([NotNull] IDataRecord r)
+        UserDTO ReadUserDTO([NotNull] IDataRecord r)
         {
             UserDTO x = new UserDTO();
             x.UserId = (int) r["UserId"];
@@ -132,10 +133,12 @@ namespace My.Example.DAL
             x.IsActive = (bool) r["IsActive"];
             x.CreatorUserId = GetNullableVal<int>(r["CreatorUserId"]);
             x.CreatedDate = (DateTime) r["CreatedDate"];
+            PostReadUserDTO(x,r);
             return x;
         }
+        partial void PostReadUserDTO([NotNull] UserDTO x, [NotNull] IDataRecord r);
         [NotNull]
-        static List<UserDTO> ReadUserDTOList([NotNull] IDataReader r)
+        List<UserDTO> ReadUserDTOList([NotNull] IDataReader r)
         {
             List<UserDTO> l = new List<UserDTO>();
             while (r.Read())
@@ -143,7 +146,7 @@ namespace My.Example.DAL
             return l;
         }
         [CanBeNull]
-        static UserDTO ExecUserDTOOne([NotNull] SqlCommand com)
+        UserDTO ExecUserDTOOne([NotNull] SqlCommand com)
         {
             UserDTO rv = null;
             using (SqlDataReader r = com.ExecuteReader())
@@ -152,7 +155,7 @@ namespace My.Example.DAL
             return rv;
         }
         [NotNull]
-        static List<UserDTO> ExecUserDTOList([NotNull] SqlCommand com)
+        List<UserDTO> ExecUserDTOList([NotNull] SqlCommand com)
         {
             using (SqlDataReader r = com.ExecuteReader())
                 return ReadUserDTOList(r);
@@ -187,11 +190,11 @@ namespace My.Example.DAL
         }
         partial void UpdateAddon([NotNull]UserDTOUpdater xu);
         [NotNull]
-        public List<UserDTO> Update([NotNull] IEnumerable<UserDTOUpdater> xu, bool needCustomSelect = true)
+        public List<UserDTO> Update([NotNull] IEnumerable<UserDTOUpdater> xus, bool needCustomSelect = true)
         {
             List<UpdateBase> uArr = new List<UpdateBase>();
             List<IEnumerable<KeyValuePair<string, object>>> pkFiltersArr = new List<IEnumerable<KeyValuePair<string, object>>>();
-            foreach (UserDTOUpdater u in xu)
+            foreach (UserDTOUpdater u in xus)
             {
                 if (u.UserId == default(int))
                     throw new Exception("Update UserDTO: userid_:u.UserId in UserDTOUpdater object is not initialized");
@@ -203,7 +206,7 @@ namespace My.Example.DAL
             if (x == null)
                 throw new Exception("Update UserDTO returns empty - no such PK"); // can not be in reality
             List<UserDTO> rv = needCustomSelect ? x.Select(t => FindUserDTOById(userid_:t.UserId)).ToList() : x;
-            foreach (UserDTOUpdater xui in xu) UpdateAddon(xui);
+            foreach (UserDTOUpdater xui in xus) UpdateAddon(xui);
             return rv;
         }
         [CanBeNull]
@@ -259,7 +262,7 @@ namespace My.Example.DAL
                 List<string> ors = new List<string>();
                 ors.Add(@" u.Login like @like or u.UserFIO like @like or u.Telephone like @like or u.Fax like @like or u.Email like @like or @intProposal is not null and u.UserId=@intProposal " );                 
                 GetWhereClauseOrsAddon(f, ors, com);
-                string orsS = ors == null ? null : string.Join(" or ", ors.Select(x=>"("+x+")"));
+                string orsS = ors == null ? null : string.Join(" or ", ors.Select(x=>"("+x+")").ToArray());
                 if(!string.IsNullOrEmpty(orsS))
                 {
                     wheres.Add(orsS);
@@ -280,14 +283,11 @@ namespace My.Example.DAL
 
             string whereClause = null;
             if (wheres.Count > 0)
-                whereClause = " where " + string.Join(" and ", wheres.Select(w=> "("+w+")"));
+                whereClause = " where " + string.Join(" and ", wheres.Select(w=> "("+w+")").ToArray());
             return whereClause;
         }
         static partial void GetWhereClauseOrsAddon([NotNull] UserDTOFinder f, [NotNull]List<string> ors, [NotNull]SqlCommand com);
         static partial void GetWhereClauseAddon([NotNull] UserDTOFinder f, [NotNull]List<string> wheres, [NotNull]SqlCommand com);
-        /// <summary>
-        ///     For gridviews with paging
-        /// </summary>
         public int FindUserDTOCount([CanBeNull] UserDTOFinder f)
         {
             using (SqlConnection con = new SqlConnection(ConnectionString))
@@ -430,7 +430,7 @@ namespace My.Example.DAL
 
         #region UserActivityDTO methods
         [NotNull]
-        static UserActivityDTO ReadUserActivityDTO([NotNull] IDataRecord r)
+        UserActivityDTO ReadUserActivityDTO([NotNull] IDataRecord r)
         {
             UserActivityDTO x = new UserActivityDTO();
             x.UserActivityId = (int) r["UserActivityId"];
@@ -441,10 +441,12 @@ namespace My.Example.DAL
             x.Browser = GetNullableRef<string>(r["Browser"]);
             x.UserHostAddress = GetNullableRef<string>(r["UserHostAddress"]);
             x.IsPostBack = (bool) r["IsPostBack"];
+            PostReadUserActivityDTO(x,r);
             return x;
         }
+        partial void PostReadUserActivityDTO([NotNull] UserActivityDTO x, [NotNull] IDataRecord r);
         [NotNull]
-        static List<UserActivityDTO> ReadUserActivityDTOList([NotNull] IDataReader r)
+        List<UserActivityDTO> ReadUserActivityDTOList([NotNull] IDataReader r)
         {
             List<UserActivityDTO> l = new List<UserActivityDTO>();
             while (r.Read())
@@ -452,7 +454,7 @@ namespace My.Example.DAL
             return l;
         }
         [CanBeNull]
-        static UserActivityDTO ExecUserActivityDTOOne([NotNull] SqlCommand com)
+        UserActivityDTO ExecUserActivityDTOOne([NotNull] SqlCommand com)
         {
             UserActivityDTO rv = null;
             using (SqlDataReader r = com.ExecuteReader())
@@ -461,7 +463,7 @@ namespace My.Example.DAL
             return rv;
         }
         [NotNull]
-        static List<UserActivityDTO> ExecUserActivityDTOList([NotNull] SqlCommand com)
+        List<UserActivityDTO> ExecUserActivityDTOList([NotNull] SqlCommand com)
         {
             using (SqlDataReader r = com.ExecuteReader())
                 return ReadUserActivityDTOList(r);
@@ -479,7 +481,7 @@ namespace My.Example.DAL
                 List<string> ors = new List<string>();
                 ors.Add(@" ua.RawUrl like @like or ua.Browser like @like or ua.UserHostAddress like @like " );                 
                 GetWhereClauseOrsAddon(f, ors, com);
-                string orsS = ors == null ? null : string.Join(" or ", ors.Select(x=>"("+x+")"));
+                string orsS = ors == null ? null : string.Join(" or ", ors.Select(x=>"("+x+")").ToArray());
                 if(!string.IsNullOrEmpty(orsS))
                 {
                     wheres.Add(orsS);
@@ -503,14 +505,11 @@ namespace My.Example.DAL
 
             string whereClause = null;
             if (wheres.Count > 0)
-                whereClause = " where " + string.Join(" and ", wheres.Select(w=> "("+w+")"));
+                whereClause = " where " + string.Join(" and ", wheres.Select(w=> "("+w+")").ToArray());
             return whereClause;
         }
         static partial void GetWhereClauseOrsAddon([NotNull] UserActivityDTOFinder f, [NotNull]List<string> ors, [NotNull]SqlCommand com);
         static partial void GetWhereClauseAddon([NotNull] UserActivityDTOFinder f, [NotNull]List<string> wheres, [NotNull]SqlCommand com);
-        /// <summary>
-        ///     For gridviews with paging
-        /// </summary>
         public int FindUserActivityDTOCount([CanBeNull] UserActivityDTOFinder f)
         {
             using (SqlConnection con = new SqlConnection(ConnectionString))

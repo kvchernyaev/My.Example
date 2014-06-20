@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 
 using JetBrains.Annotations;
 using My.Common.DAL;
-using My.Common;
 #endregion
 
 // ReSharper disable InconsistentNaming

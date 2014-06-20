@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 using System.Xml.Serialization;
 
 using JetBrains.Annotations;
+
 using My.Common.DAL;
-using My.Common;
+
 #endregion
 
 // ReSharper disable InconsistentNaming
@@ -24,7 +26,7 @@ namespace My.Example.DAL
     /// </summary>
     [DebuggerDisplay("{Login} ({UserId})")]
     [Serializable]
-    public class UserDTO : DtoDbBase<UserDTO>
+    public partial class UserDTO : DtoDbBase<UserDTO>
     {
         public UserDTO(){}
 

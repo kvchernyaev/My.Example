@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 using JetBrains.Annotations;
 
@@ -40,7 +39,7 @@ namespace My.Example.DAL
         public virtual UserDTO Update([NotNull] UserDTOUpdater xu, bool needCustomSelect = true)
         { throw new NotImplementedException(); }
         [NotNull]
-        public virtual List<UserDTO> Update([NotNull] IEnumerable<UserDTOUpdater> xu, bool needCustomSelect = true)
+        public virtual List<UserDTO> Update([NotNull] IEnumerable<UserDTOUpdater> xus, bool needCustomSelect = true)
         { throw new NotImplementedException(); }
         [CanBeNull]
         public virtual UserDTO FindUserDTO([NotNull] string login)
@@ -51,9 +50,6 @@ namespace My.Example.DAL
         [NotNull]
         public virtual List<UserDTO> FindUserDTOByLoginOrEmail([NotNull] string login, [CanBeNull] string email)
         { throw new NotImplementedException(); }
-        /// <summary>
-        ///     For gridviews with paging
-        /// </summary>
         public virtual int FindUserDTOCount([CanBeNull] UserDTOFinder f)
         { throw new NotImplementedException(); }
         [NotNull]
@@ -73,9 +69,6 @@ namespace My.Example.DAL
 
 
         #region UserActivityDTO methods
-        /// <summary>
-        ///     For gridviews with paging
-        /// </summary>
         public virtual int FindUserActivityDTOCount([CanBeNull] UserActivityDTOFinder f)
         { throw new NotImplementedException(); }
         [NotNull]
